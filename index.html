@@ -139,7 +139,7 @@
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
   }
 
-  /* ---------- CLEAR & VIBRANT PARKING BACKGROUND ---------- */
+  /* ---------- REAL PARKING BACKGROUND ---------- */
   .bg-scene{
     position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none;
     background: #050505;
@@ -546,7 +546,64 @@
     box-shadow: 0 25px 60px rgba(0,0,0,0.7);
     position:relative;
   }
-  .slot-grid{ display:grid; grid-template-columns:repeat(8,1fr); gap:12px; }
+
+  /* ---------- PARKING GRID & DRIVE LANES ---------- */
+  .slot-layout{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .slot-row{
+    display:grid;
+    grid-template-columns:repeat(8, 1fr);
+    gap:12px;
+  }
+
+  .drive-lane{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:12px 0;
+    margin:6px 0;
+  }
+  .drive-lane::before, .drive-lane::after{
+    content:"";
+    position:absolute;
+    left:0; right:0;
+    height:1.5px;
+    background-image: linear-gradient(to right, rgba(205,164,52,0.45) 50%, transparent 50%);
+    background-size: 24px 100%;
+    animation: laneFlow 12s linear infinite;
+  }
+  .drive-lane::before{ top:0; }
+  .drive-lane::after{ bottom:0; }
+  @keyframes laneFlow{
+    from{ background-position: 0 0; }
+    to{ background-position: -240px 0; }
+  }
+
+  .drive-lane-badge{
+    background:rgba(18, 17, 15, 0.95);
+    border:1px solid var(--hairline);
+    border-radius:999px;
+    padding:5px 20px;
+    font-family:'Cairo',sans-serif;
+    font-weight:800;
+    font-size:11.5px;
+    letter-spacing:3px;
+    color:var(--gold-light);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 0 15px rgba(205,164,52,0.15);
+    z-index:2;
+  }
+  .drive-lane-badge span{
+    color:var(--gold);
+    font-weight:900;
+  }
   
   .slot{
     aspect-ratio:1/0.85; border-radius:10px; border:1px solid;
@@ -744,14 +801,14 @@
     .metric-grid{ grid-template-columns:1fr 1fr; }
     .feat-grid{ grid-template-columns:1fr 1fr; }
     .step-row{ grid-template-columns:1fr; }
-    .slot-grid{ grid-template-columns:repeat(4,1fr); }
+    .slot-row{ grid-template-columns:repeat(4,1fr); }
   }
   @media (max-width:600px){
     .wrap{ padding:0 18px; }
     .hero{ padding:60px 0 40px; }
     .dashboard, .parking, .features, .how{ padding:50px 0; }
     .metric-grid, .feat-grid{ grid-template-columns:1fr; }
-    .slot-grid{ grid-template-columns:repeat(4,1fr); gap:8px; }
+    .slot-row{ grid-template-columns:repeat(4,1fr); gap:8px; }
     .grid-panel{ padding:18px 12px; }
     .floor-bar{ padding:12px 16px; }
     .cta-banner{ padding:40px 20px; margin:20px auto 60px; }
@@ -759,6 +816,7 @@
     .footer-bottom{ flex-direction:column; align-items:center; text-align:center; }
     .parking-filter-tabs{ gap:8px; }
     .parking-tab{ padding:8px 14px; font-size:12.5px; }
+    .drive-lane-badge{ font-size:10px; padding:4px 14px; }
   }
 </style>
 </head>
@@ -951,7 +1009,7 @@
       <div class="live-badge"><span class="live-dot"></span> Live availability · DAWWAR</div>
     </div>
     <div class="grid-panel">
-      <div class="slot-grid" id="slotGrid"></div>
+      <div class="slot-layout" id="slotLayout"></div>
     </div>
   </div>
 </section>
@@ -1138,7 +1196,7 @@
           const rand = Math.random();
           state = rand < (1 - conf.occupiedRate) ? 'available' : rand < 0.85 ? 'occupied' : 'reserved';
         }
-        slots.push({ id, type, state });
+        slots.push({ id, type, state, row: rows[r] });
         idx++;
       }
     }
@@ -1223,8 +1281,8 @@
     }
   }
 
-  // ---------- RENDER PARKING GRID ----------
-  const grid = document.getElementById('slotGrid');
+  // ---------- RENDER PARKING GRID WITH DRIVE LANES ----------
+  const layout = document.getElementById('slotLayout');
   function iconFor(type){
     if(type === 'ev') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>';
     if(type === 'handicap') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>';
@@ -1237,19 +1295,41 @@
   }
 
   function renderGrid(){
-    grid.innerHTML = '';
-    slots.forEach((s)=>{
-      const div = document.createElement('div');
-      const extraClass = s.type === 'ev' ? ' ev-slot' : '';
-      const isDimmed = (currentFilterType !== 'all' && s.type !== currentFilterType) ? ' dimmed' : '';
-      div.className = 'slot ' + s.state + extraClass + isDimmed;
-      div.innerHTML = iconFor(s.type) + `<span>${s.id}</span><span class="sub">${subLabel(s)}</span>`;
+    layout.innerHTML = '';
+    const rows = ['A','B','C'];
+
+    rows.forEach((rowKey, rIndex) => {
+      // Create Row
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'slot-row';
       
-      // Allow clicking on available, special, or reserved (to cancel)
-      if(s.state === 'available' || s.state === 'special' || s.state === 'reserved'){
-        div.addEventListener('click', ()=> openModal(s.id));
+      const rowSlots = slots.filter(s => s.row === rowKey);
+      rowSlots.forEach(s => {
+        const div = document.createElement('div');
+        const extraClass = s.type === 'ev' ? ' ev-slot' : '';
+        const isDimmed = (currentFilterType !== 'all' && s.type !== currentFilterType) ? ' dimmed' : '';
+        div.className = 'slot ' + s.state + extraClass + isDimmed;
+        div.innerHTML = iconFor(s.type) + `<span>${s.id}</span><span class="sub">${subLabel(s)}</span>`;
+        
+        if(s.state === 'available' || s.state === 'special' || s.state === 'reserved'){
+          div.addEventListener('click', ()=> openModal(s.id));
+        }
+        rowDiv.appendChild(div);
+      });
+
+      layout.appendChild(rowDiv);
+
+      // Insert Drive Lane between Row A & B, and Row B & C
+      if(rIndex < rows.length - 1){
+        const laneDiv = document.createElement('div');
+        laneDiv.className = 'drive-lane';
+        laneDiv.innerHTML = `
+          <div class="drive-lane-badge">
+            <span>←</span> DRIVE LANE <span>→</span>
+          </div>
+        `;
+        layout.appendChild(laneDiv);
       }
-      grid.appendChild(div);
     });
   }
 
@@ -1326,7 +1406,7 @@
     const s = slots.find(x=>x.id===activeSlotId);
     
     // Trigger animated parking
-    const slotElements = grid.querySelectorAll('.slot');
+    const slotElements = layout.querySelectorAll('.slot');
     const targetEl = Array.from(slotElements).find(el => el.querySelector('span').textContent === activeSlotId);
     if(targetEl){
       targetEl.classList.add('booking-animated');
