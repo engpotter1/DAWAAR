@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>دوَّر | DAWWAR — Smart Parking</title>
+
+<!-- SVG FAVICON -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 200'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23fff0bd'/><stop offset='50%25' stop-color='%23cda43a'/><stop offset='100%25' stop-color='%238a6a22'/></linearGradient><linearGradient id='s' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ffffff'/><stop offset='100%25' stop-color='%23666b73'/></linearGradient></defs><path d='M68 35 L105 35 L75 145 C72 155 60 162 48 162 C58 145 68 90 68 35 Z' fill='url(%23g)'/><path d='M98 35 C155 35 192 65 192 105 C192 145 152 165 105 165 C138 152 165 132 165 105 C165 75 135 52 98 52 Z' fill='url(%23s)'/><path d='M45 168 C85 135 155 135 195 168 C155 145 85 145 45 168 Z' fill='url(%23g)'/><circle cx='140' cy='135' r='4' fill='%23fff0bd'/><circle cx='95' cy='135' r='4' fill='%23fff0bd'/></svg>">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
 <style>
@@ -51,17 +55,17 @@
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
   }
 
-  /* ---------- CINEMATIC SPLASH SCREEN & 3D LOGO ---------- */
+  /* ---------- CINEMATIC SPLASH SCREEN ---------- */
   .splash-screen {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at center, #151310 0%, #050505 80%, #000000 100%);
+    background: #000000;
     z-index: 99999;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+    transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.1s;
+    overflow: hidden;
   }
   .splash-screen.fade-out {
     opacity: 0;
@@ -69,131 +73,109 @@
     pointer-events: none;
   }
 
-  .splash-logo-wrap {
+  .splash-banner-container {
     position: relative;
+    width: 100%;
+    max-width: 1250px;
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: 
+      radial-gradient(ellipse at center, rgba(30, 26, 20, 0.95) 0%, rgba(10, 9, 8, 0.98) 60%, #000000 100%),
+      repeating-radial-gradient(circle at 50% 50%, rgba(205,164,52,0.03) 0, rgba(205,164,52,0.03) 1px, transparent 1px, transparent 4px);
+    box-shadow: 0 0 80px rgba(0,0,0,0.95), inset 0 0 60px rgba(0,0,0,0.8);
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(8px);
+    animation: bannerFadeIn 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+  }
+  @keyframes bannerFadeIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+  }
+
+  .gold-wave {
+    position: absolute;
+    width: 420px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .gold-wave.left {
+    left: -40px;
+    top: 0;
+    transform: rotate(5deg);
+  }
+  .gold-wave.right {
+    right: -40px;
+    top: 0;
+    transform: scaleX(-1) rotate(5deg);
+  }
+
+  .splash-center-content {
+    position: relative;
+    z-index: 5;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transform: scale(0.65) translateY(20px);
-    filter: blur(15px);
-    animation: logoEmerge 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.15s;
-  }
-  @keyframes logoEmerge {
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      filter: blur(0px);
-    }
   }
 
-  .splash-emblem {
-    position: relative;
-    width: 210px;
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* 3D Curved D Symbol */
-  .emblem-svg {
-    width: 100%;
-    height: 100%;
-    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.9)) drop-shadow(0 0 25px rgba(205,164,52,0.3));
-  }
-
-  /* Speed Car in Logo */
-  .speed-car {
-    position: absolute;
-    bottom: 48px;
-    right: 28px;
-    width: 115px;
+  .splash-center-content svg.main-logo-svg {
+    width: clamp(240px, 32vw, 360px);
     height: auto;
-    opacity: 0;
-    transform: translateX(120px) scaleX(0.7);
-    filter: blur(8px) drop-shadow(0 0 15px var(--gold-light));
-    animation: speedCarDash 0.75s cubic-bezier(0.2, 0.9, 0.3, 1) forwards 0.45s;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.95)) drop-shadow(0 0 35px rgba(205,164,52,0.35));
+    animation: emblemPulse 3.5s ease-in-out infinite alternate;
   }
-  @keyframes speedCarDash {
-    0% {
-      opacity: 0;
-      transform: translateX(130px) scaleX(1.3);
-      filter: blur(10px) brightness(2.5);
-    }
-    60% {
-      opacity: 1;
-      filter: blur(2px) brightness(1.6);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0) scaleX(1);
-      filter: blur(0) drop-shadow(0 0 10px rgba(242,217,138,0.7));
-    }
+  @keyframes emblemPulse {
+    0% { filter: drop-shadow(0 20px 40px rgba(0,0,0,0.95)) drop-shadow(0 0 25px rgba(205,164,52,0.25)); }
+    100% { filter: drop-shadow(0 20px 40px rgba(0,0,0,0.95)) drop-shadow(0 0 45px rgba(242,217,138,0.55)); }
   }
 
-  /* Flash burst on car arrival */
-  .logo-flash {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(242,217,138,0.8) 0%, rgba(205,164,52,0.2) 40%, transparent 70%);
-    opacity: 0;
-    transform: scale(0.2);
-    pointer-events: none;
-    animation: flashBurst 0.6s ease-out forwards 0.9s;
-  }
-  @keyframes flashBurst {
-    0% { opacity: 0.9; transform: scale(0.3); }
-    100% { opacity: 0; transform: scale(1.6); }
-  }
-
-  .splash-text-group {
+  .splash-text-wrap {
     text-align: center;
     margin-top: 15px;
-    opacity: 0;
-    transform: translateY(15px);
-    animation: textAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.7s;
   }
-  @keyframes textAppear {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .splash-brand-title {
+  .splash-main-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 38px;
+    font-size: clamp(34px, 4.8vw, 56px);
     font-weight: 900;
-    letter-spacing: 12px;
-    color: #e5e5e5;
-    background: linear-gradient(180deg, #ffffff 20%, #b8b8b8 70%, #757575 100%);
+    letter-spacing: 14px;
+    margin-right: -14px;
+    color: #e2e8f0;
+    background: linear-gradient(180deg, #ffffff 15%, #c8cdd4 55%, #7e848d 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
-    margin-right: -12px;
+    filter: drop-shadow(0 4px 14px rgba(0,0,0,0.9));
   }
-  .splash-brand-sub {
+  .splash-sub-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
+    font-size: clamp(12px, 1.6vw, 16px);
     font-weight: 700;
-    letter-spacing: 14px;
+    letter-spacing: 16px;
+    margin-right: -16px;
     color: var(--gold);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-top: 4px;
-    margin-right: -14px;
+    gap: 16px;
+    margin-top: 6px;
   }
-  .splash-brand-sub::before, .splash-brand-sub::after {
+  .splash-sub-title::before, .splash-sub-title::after {
     content: "";
-    width: 30px;
-    height: 1px;
+    width: clamp(35px, 6vw, 75px);
+    height: 1.5px;
     background: linear-gradient(90deg, transparent, var(--gold));
   }
-  .splash-brand-sub::after {
+  .splash-sub-title::after {
     background: linear-gradient(90deg, var(--gold), transparent);
   }
 
@@ -283,6 +265,21 @@
   }
   .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); animation: pulse 1.5s infinite;}
 
+  /* ---------- BRAND LOGO ICON (REPLACING "D" SQUARE) ---------- */
+  .brand-logo-icon{
+    width:50px; height:44px;
+    display:flex; align-items:center; justify-content:center;
+    filter: drop-shadow(0 4px 15px rgba(205,164,52,0.45));
+    transition: transform 0.4s var(--ease), filter 0.4s var(--ease);
+  }
+  .brand-logo-icon svg{
+    width:100%; height:100%;
+  }
+  .brand:hover .brand-logo-icon{
+    transform: scale(1.1) rotate(-4deg);
+    filter: drop-shadow(0 6px 25px rgba(205,164,52,0.75));
+  }
+
   /* ---------- nav ---------- */
   .nav{
     position:sticky; top:0; z-index:50;
@@ -290,20 +287,8 @@
     background:rgba(5,5,5,0.85);
     border-bottom:1px solid var(--hairline);
   }
-  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1180px; margin:0 auto; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 28px; max-width:1180px; margin:0 auto; }
   .brand{ display:flex; align-items:center; gap:12px; }
-  .brand-badge{
-    width:44px; height:44px; border-radius:12px;
-    display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(155deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
-    color:var(--black); font-family:'Cairo',sans-serif; font-weight:900; font-size:20px;
-    box-shadow:0 4px 18px rgba(205,164,52,0.35);
-    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
-  }
-  .brand:hover .brand-badge{
-    transform: rotate(10deg) scale(1.08);
-    box-shadow: 0 6px 25px rgba(205,164,52,0.6);
-  }
   .brand-text .ar{ font-family:'Cairo',sans-serif; font-weight:800; font-size:19px; line-height:1.1;}
   .brand-text .en{ font-size:10.5px; letter-spacing:3px; color:var(--muted); font-family:'Cairo',sans-serif;}
   .nav-links{ display:flex; align-items:center; gap:34px; }
@@ -889,62 +874,84 @@
     .parking-filter-tabs{ gap:8px; }
     .parking-tab{ padding:8px 14px; font-size:12.5px; }
     .drive-lane-badge{ font-size:10px; padding:4px 14px; }
-    .splash-brand-title{ font-size: 26px; }
+    .splash-banner-container{ height: 380px; padding: 10px; }
   }
 </style>
 </head>
 <body>
 
-<!-- CINEMATIC SPLASH SCREEN -->
+<!-- EXACT CINEMATIC SPLASH SCREEN -->
 <div class="splash-screen" id="splashScreen">
-  <div class="splash-logo-wrap">
-    <div class="logo-flash"></div>
-    <div class="splash-emblem">
-      <!-- 3D Luxury Metallic D Logo SVG -->
-      <svg class="emblem-svg" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="splash-banner-container">
+    
+    <!-- Left Golden Decorative Wave -->
+    <svg class="gold-wave left" viewBox="0 0 350 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="waveGoldL" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fff0bd" />
+          <stop offset="40%" stop-color="#cda43a" />
+          <stop offset="80%" stop-color="#7a5c1a" />
+          <stop offset="100%" stop-color="#362805" />
+        </linearGradient>
+      </defs>
+      <path d="M-60 480 C 80 420 180 300 120 160 C 90 90 20 -20 -80 -60 Z" fill="url(#waveGoldL)" opacity="0.85"/>
+      <path d="M-30 480 C 110 390 210 260 160 120 C 120 40 40 -40 -50 -60 Z" stroke="url(#waveGoldL)" stroke-width="4" fill="none" opacity="0.9"/>
+      <path d="M0 480 C 140 360 240 220 190 80 C 160 20 80 -40 -20 -60 Z" stroke="#fff0bd" stroke-width="1.5" fill="none" opacity="0.6"/>
+    </svg>
+
+    <!-- Right Golden Decorative Wave -->
+    <svg class="gold-wave right" viewBox="0 0 350 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M-60 480 C 80 420 180 300 120 160 C 90 90 20 -20 -80 -60 Z" fill="url(#waveGoldL)" opacity="0.85"/>
+      <path d="M-30 480 C 110 390 210 260 160 120 C 120 40 40 -40 -50 -60 Z" stroke="url(#waveGoldL)" stroke-width="4" fill="none" opacity="0.9"/>
+      <path d="M0 480 C 140 360 240 220 190 80 C 160 20 80 -40 -20 -60 Z" stroke="#fff0bd" stroke-width="1.5" fill="none" opacity="0.6"/>
+    </svg>
+
+    <!-- Center Emblem & Official Typography -->
+    <div class="splash-center-content">
+      <svg class="main-logo-svg" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="goldMetal" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#fff0bd" />
-            <stop offset="35%" stop-color="#cda43a" />
-            <stop offset="70%" stop-color="#8a6a22" />
-            <stop offset="100%" stop-color="#544011" />
+          <linearGradient id="metalGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fff8db" />
+            <stop offset="30%" stop-color="#dfb84b" />
+            <stop offset="65%" stop-color="#9d7826" />
+            <stop offset="100%" stop-color="#543e0e" />
           </linearGradient>
-          <linearGradient id="silverMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="metalSilver" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#ffffff" />
-            <stop offset="50%" stop-color="#b0b5bc" />
-            <stop offset="100%" stop-color="#555a60" />
+            <stop offset="45%" stop-color="#c8cdd4" />
+            <stop offset="75%" stop-color="#8a9099" />
+            <stop offset="100%" stop-color="#464b52" />
           </linearGradient>
-          <linearGradient id="roadGold" x1="0%" y1="0%" x2="100%" y2="0%">
+          <linearGradient id="roadSweep" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="#8a6a22" />
-            <stop offset="50%" stop-color="#f2d98a" />
+            <stop offset="50%" stop-color="#fff0bd" />
             <stop offset="100%" stop-color="#cda43a" />
           </linearGradient>
         </defs>
 
-        <!-- Left Gold Pillar of D -->
-        <path d="M 68 35 L 105 35 L 75 145 C 72 155 60 162 48 162 C 58 145 68 90 68 35 Z" fill="url(#goldMetal)" />
+        <!-- 3D Outer D Arch -->
+        <path d="M 125 24 C 205 24 256 68 256 122 C 256 176 200 204 135 204 C 180 188 218 160 218 122 C 218 80 178 50 125 50 Z" fill="url(#metalSilver)" />
         
-        <!-- Outer Metallic Curve of D -->
-        <path d="M 98 35 C 155 35 192 65 192 105 C 192 145 152 165 105 165 C 138 152 165 132 165 105 C 165 75 135 52 98 52 Z" fill="url(#silverMetal)" />
+        <!-- 3D Inner Left D Pillar -->
+        <path d="M 90 24 L 140 24 L 98 175 C 95 188 80 198 64 198 C 76 178 90 105 90 24 Z" fill="url(#metalGold)" />
         
-        <!-- Curved Bottom Road Arc -->
-        <path d="M 45 168 C 85 135 155 135 195 168 C 155 145 85 145 45 168 Z" fill="url(#roadGold)" />
+        <!-- Curved Roadway Ribbons in Base -->
+        <path d="M 60 205 C 115 162 205 162 260 205 C 205 174 115 174 60 205 Z" fill="url(#roadSweep)" />
+        <path d="M 80 214 C 125 185 195 185 240 214 C 195 194 125 194 80 214 Z" fill="url(#metalGold)" opacity="0.8" />
+        
+        <!-- Sleek Sports Car Silhouette -->
+        <path d="M 115 160 C 135 156 155 152 178 134 C 198 118 238 116 258 132 C 268 140 274 150 274 160 C 262 160 258 152 246 152 C 234 152 228 160 206 160 C 192 160 184 152 172 152 C 160 152 152 160 115 160 Z" stroke="url(#metalGold)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+        <circle cx="246" cy="158" r="6" fill="#fff0bd" />
+        <circle cx="172" cy="158" r="6" fill="#fff0bd" />
+
+        <!-- Floating Emblem 'P' Inside Core -->
+        <path d="M 152 172 L 165 172 C 174 172 180 177 180 183 C 180 189 174 194 165 194 L 158 194 L 158 206 L 152 206 Z M 158 178 L 158 188 L 164 188 C 168 188 172 186 172 183 C 172 180 168 178 164 178 Z" fill="#ffffff" />
       </svg>
 
-      <!-- Super-Fast Animated Silhouette Car -->
-      <svg class="speed-car" viewBox="0 0 160 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M 5 42 C 25 40 45 38 65 24 C 82 12 118 10 138 22 C 148 28 155 35 155 42 C 145 42 142 36 132 36 C 122 36 118 42 98 42 C 85 42 78 36 68 36 C 58 36 52 42 5 42 Z" stroke="url(#goldMetal)" stroke-width="2.8" stroke-linecap="round" fill="none" />
-        <!-- Car Wheels & Headlight Glow -->
-        <circle cx="132" cy="40" r="5" fill="#f2d98a" />
-        <circle cx="68" cy="40" r="5" fill="#f2d98a" />
-        <path d="M 145 28 L 158 32" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
-      </svg>
-    </div>
-
-    <!-- DAWWAR PARKING Text Group -->
-    <div class="splash-text-group">
-      <div class="splash-brand-title">DAWWAAR</div>
-      <div class="splash-brand-sub">PARKING</div>
+      <div class="splash-text-wrap">
+        <div class="splash-main-title">DAWWAAR</div>
+        <div class="splash-sub-title">PARKING</div>
+      </div>
     </div>
   </div>
 </div>
@@ -965,7 +972,28 @@
 <header class="nav">
   <div class="nav-inner">
     <div class="brand">
-      <div class="brand-badge">د</div>
+      <!-- 3D Emblem Logo (Replacing the old square) -->
+      <div class="brand-logo-icon">
+        <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="navGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fff0bd" />
+              <stop offset="40%" stop-color="#cda43a" />
+              <stop offset="100%" stop-color="#8a6a22" />
+            </linearGradient>
+            <linearGradient id="navSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" />
+              <stop offset="100%" stop-color="#7a8089" />
+            </linearGradient>
+          </defs>
+          <path d="M 125 24 C 205 24 256 68 256 122 C 256 176 200 204 135 204 C 180 188 218 160 218 122 C 218 80 178 50 125 50 Z" fill="url(#navSilver)" />
+          <path d="M 90 24 L 140 24 L 98 175 C 95 188 80 198 64 198 C 76 178 90 105 90 24 Z" fill="url(#navGold)" />
+          <path d="M 60 205 C 115 162 205 162 260 205 C 205 174 115 174 60 205 Z" fill="url(#navGold)" />
+          <path d="M 115 160 C 135 156 155 152 178 134 C 198 118 238 116 258 132 C 268 140 274 150 274 160 C 262 160 258 152 246 152 C 234 152 228 160 206 160 C 192 160 184 152 172 152 C 160 152 152 160 115 160 Z" stroke="url(#navGold)" stroke-width="4" fill="none" />
+          <circle cx="246" cy="158" r="6" fill="#fff0bd" />
+          <circle cx="172" cy="158" r="6" fill="#fff0bd" />
+        </svg>
+      </div>
       <div class="brand-text">
         <div class="ar">دوَّر</div>
         <div class="en">DAWWAR</div>
@@ -1203,7 +1231,17 @@
 <footer class="wrap">
   <div class="footer-top">
     <div class="footer-brand">
-      <div class="brand-badge">د</div>
+      <!-- 3D Emblem Logo in Footer -->
+      <div class="brand-logo-icon">
+        <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 125 24 C 205 24 256 68 256 122 C 256 176 200 204 135 204 C 180 188 218 160 218 122 C 218 80 178 50 125 50 Z" fill="url(#navSilver)" />
+          <path d="M 90 24 L 140 24 L 98 175 C 95 188 80 198 64 198 C 76 178 90 105 90 24 Z" fill="url(#navGold)" />
+          <path d="M 60 205 C 115 162 205 162 260 205 C 205 174 115 174 60 205 Z" fill="url(#navGold)" />
+          <path d="M 115 160 C 135 156 155 152 178 134 C 198 118 238 116 258 132 C 268 140 274 150 274 160 C 262 160 258 152 246 152 C 234 152 228 160 206 160 C 192 160 184 152 172 152 C 160 152 152 160 115 160 Z" stroke="url(#navGold)" stroke-width="4" fill="none" />
+          <circle cx="246" cy="158" r="6" fill="#fff0bd" />
+          <circle cx="172" cy="158" r="6" fill="#fff0bd" />
+        </svg>
+      </div>
       <div class="brand-text">
         <div class="ar">دوَّر</div>
         <div class="en">DAWWAR</div>
@@ -1362,14 +1400,14 @@
     }
   });
 
-  // ---------- SPLASH SCREEN TIMEOUT (2.2 SECONDS FOR CAR ANIMATION) ----------
+  // ---------- SPLASH SCREEN TIMEOUT (3.0 SECONDS) ----------
   window.addEventListener('load', () => {
     setTimeout(() => {
       const splash = document.getElementById('splashScreen');
       if(splash){
         splash.classList.add('fade-out');
       }
-    }, 2200);
+    }, 3000);
   });
 
   // ---------- LIGHT TRAIL WITH MOUSE ----------
@@ -1436,7 +1474,6 @@
 
       layout.appendChild(rowDiv);
 
-      // Insert Drive Lane between Row A & B, and Row B & C
       if(rIndex < rows.length - 1){
         const laneDiv = document.createElement('div');
         laneDiv.className = 'drive-lane';
