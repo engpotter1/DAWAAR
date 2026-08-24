@@ -139,7 +139,7 @@
     100% { opacity: 0; transform: translate(-50%, -50%) scale(0.1); }
   }
 
-  /* ---------- REAL PHOTO PARKING BACKGROUND ---------- */
+  /* ---------- CLEAR & VIBRANT PARKING BACKGROUND ---------- */
   .bg-scene{
     position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none;
     background: #050505;
@@ -147,12 +147,12 @@
   .bg-scene .bg-image-layer{
     position:absolute; inset:-40px;
     background-image: 
-      radial-gradient(ellipse at center, rgba(5,5,5,0.4) 0%, rgba(5,5,5,0.85) 75%, #050505 100%),
-      linear-gradient(180deg, rgba(5,5,5,0.75) 0%, rgba(12,11,10,0.6) 40%, rgba(5,5,5,0.92) 100%),
+      radial-gradient(ellipse at center, rgba(5,5,5,0.15) 0%, rgba(5,5,5,0.55) 75%, rgba(5,5,5,0.85) 100%),
+      linear-gradient(180deg, rgba(5,5,5,0.45) 0%, rgba(12,11,10,0.2) 40%, rgba(5,5,5,0.75) 100%),
       url('https://images.unsplash.com/photo-1590674899484-d5640e854abe?q=80&w=2070&auto=format&fit=crop');
     background-size: cover;
     background-position: center center;
-    filter: brightness(0.65) contrast(1.15) saturate(1.1);
+    filter: brightness(0.92) contrast(1.15) saturate(1.2);
     animation: slowParkingZoom 30s ease-in-out infinite alternate;
   }
   @keyframes slowParkingZoom{
@@ -205,9 +205,9 @@
     font-family:'Cairo',sans-serif; font-weight:700; font-size:12.5px;
     letter-spacing:1.5px; color:var(--gold-light);
     border:1px solid var(--hairline); border-radius:999px;
-    padding:7px 16px; background:rgba(205,164,52,0.08);
+    padding:7px 16px; background:rgba(15, 14, 12, 0.75);
     position:relative; overflow:hidden;
-    backdrop-filter:blur(8px);
+    backdrop-filter:blur(10px);
   }
   .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); animation: pulse 1.5s infinite;}
 
@@ -215,7 +215,7 @@
   .nav{
     position:sticky; top:0; z-index:50;
     backdrop-filter:blur(16px);
-    background:rgba(5,5,5,0.78);
+    background:rgba(5,5,5,0.85);
     border-bottom:1px solid var(--hairline);
   }
   .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1180px; margin:0 auto; }
@@ -265,11 +265,11 @@
 
   .btn-ghost{
     font-family:'Cairo',sans-serif; font-weight:600; font-size:14.5px;
-    color:var(--white); background:transparent; border:1px solid var(--hairline);
+    color:var(--white); background:rgba(15, 14, 12, 0.7); backdrop-filter:blur(8px); border:1px solid var(--hairline);
     border-radius:11px; padding:11px 22px; transition:all .3s var(--ease);
     cursor:pointer;
   }
-  .btn-ghost:hover{ border-color:var(--gold); background:rgba(205,164,52,0.08); transform: translateY(-2px); }
+  .btn-ghost:hover{ border-color:var(--gold); background:rgba(205,164,52,0.12); transform: translateY(-2px); }
 
   .btn-danger{
     font-family:'Cairo',sans-serif; font-weight:700; font-size:14.5px;
@@ -290,6 +290,7 @@
   .hero h1{
     font-size:clamp(30px,5.2vw,58px); font-weight:900; line-height:1.28;
     max-width:920px; margin:0 auto 22px;
+    text-shadow: 0 4px 25px rgba(0,0,0,0.85);
   }
   .grad-text{
     background:linear-gradient(100deg, var(--gold-light), var(--gold) 45%, var(--gold-deep));
@@ -297,14 +298,14 @@
     background-size:200% auto; animation:shine 6s linear infinite;
   }
   @keyframes shine{ to{ background-position:200% center; } }
-  .hero p.lead{ max-width:640px; margin:0 auto 44px; color:var(--muted); font-size:16.5px; line-height:1.9; }
+  .hero p.lead{ max-width:640px; margin:0 auto 44px; color:#e2ddd4; font-size:16.5px; line-height:1.9; text-shadow: 0 2px 15px rgba(0,0,0,0.9); }
 
   /* ---------- LUXURY CUSTOM FILTER BAR & DROPDOWNS ---------- */
   .filter-bar{
     max-width:940px; margin:0 auto; display:grid; grid-template-columns:1.2fr 1fr 1fr auto;
-    gap:14px; background:rgba(22, 21, 19, 0.88); backdrop-filter:blur(22px);
+    gap:14px; background:rgba(22, 21, 19, 0.9); backdrop-filter:blur(22px);
     border:1px solid var(--hairline); padding:14px; border-radius:20px;
-    box-shadow:0 25px 60px rgba(0,0,0,0.6), 0 0 30px rgba(205,164,52,0.08);
+    box-shadow:0 25px 60px rgba(0,0,0,0.7), 0 0 30px rgba(205,164,52,0.08);
     position:relative; z-index:50;
   }
 
@@ -441,7 +442,7 @@
   .dashboard{ padding:70px 0 30px; position:relative; z-index:10; }
   .metric-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; perspective:1000px; }
   .metric-card{
-    background:rgba(22, 21, 19, 0.82);
+    background:rgba(22, 21, 19, 0.88);
     backdrop-filter:blur(18px);
     border:1px solid var(--hairline); border-radius:var(--radius); padding:26px 22px;
     transition:transform .35s var(--ease), border-color .35s, box-shadow .35s;
@@ -471,7 +472,7 @@
   /* ---------- parking ---------- */
   .parking{ padding:100px 0; perspective: 1400px; position:relative; z-index:10; }
   .legend{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-bottom:28px; }
-  .legend-chip{ display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); background:rgba(22, 21, 19, 0.85); backdrop-filter:blur(12px); border:1px solid var(--hairline); padding:8px 14px; border-radius:999px; transition:transform .25s, border-color .25s; }
+  .legend-chip{ display:flex; align-items:center; gap:8px; font-size:13px; color:var(--muted); background:rgba(22, 21, 19, 0.9); backdrop-filter:blur(14px); border:1px solid var(--hairline); padding:8px 14px; border-radius:999px; transition:transform .25s, border-color .25s; }
   .legend-chip:hover{ transform:translateY(-2px); border-color:var(--gold); }
   .legend-dot{ width:9px; height:9px; border-radius:50%; }
   .dot-available{ background:var(--available); box-shadow:0 0 8px var(--available-glow); }
@@ -498,13 +499,13 @@
     font-weight:700;
     font-size:14px;
     color:var(--white);
-    background:rgba(22, 21, 19, 0.85);
+    background:rgba(22, 21, 19, 0.9);
     backdrop-filter:blur(14px);
     border:1px solid var(--hairline);
     cursor:pointer;
     transition:all .3s var(--ease);
     user-select:none;
-    box-shadow:0 4px 15px rgba(0,0,0,0.4);
+    box-shadow:0 4px 15px rgba(0,0,0,0.5);
   }
   .parking-tab svg{ width:17px; height:17px; color:var(--gold); transition:transform .3s var(--ease); }
   .parking-tab:hover{
@@ -524,7 +525,7 @@
 
   .floor-bar{
     display:flex; align-items:center; justify-content:space-between;
-    background:rgba(22, 21, 19, 0.9); backdrop-filter:blur(16px);
+    background:rgba(22, 21, 19, 0.92); backdrop-filter:blur(16px);
     border:1px solid var(--hairline); border-radius:14px 14px 0 0;
     padding:16px 24px; border-bottom:none;
   }
@@ -539,10 +540,10 @@
     transition: transform 0.6s var(--ease);
   }
   .grid-panel{
-    background:radial-gradient(ellipse at top, rgba(205,164,52,0.06), transparent 60%), rgba(13, 13, 12, 0.9);
-    backdrop-filter:blur(20px);
+    background:radial-gradient(ellipse at top, rgba(205,164,52,0.06), transparent 60%), rgba(13, 13, 12, 0.92);
+    backdrop-filter:blur(22px);
     border:1px solid var(--hairline); border-radius:0 0 14px 14px; padding:34px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7);
     position:relative;
   }
   .slot-grid{ display:grid; grid-template-columns:repeat(8,1fr); gap:12px; }
@@ -651,7 +652,7 @@
   .features{ padding:100px 0; }
   .feat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; perspective: 1000px; }
   .feat-card{
-    background:rgba(22, 21, 19, 0.85); backdrop-filter:blur(18px);
+    background:rgba(22, 21, 19, 0.88); backdrop-filter:blur(18px);
     border:1px solid var(--hairline); border-radius:16px; padding:30px 24px;
     transition:transform .35s var(--ease), border-color .35s, box-shadow .35s;
     position:relative; overflow:hidden;
@@ -680,7 +681,7 @@
   .how{ padding:100px 0; }
   .step-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; position:relative; }
   .step-card{
-    background:rgba(13, 13, 12, 0.88); backdrop-filter:blur(18px);
+    background:rgba(13, 13, 12, 0.9); backdrop-filter:blur(18px);
     border:1px solid var(--hairline); border-radius:16px; padding:34px 26px;
     position:relative; overflow:hidden; transition:transform .35s var(--ease), border-color .35s;
   }
@@ -700,15 +701,15 @@
   /* ---------- cta banner ---------- */
   .cta-banner{
     margin:40px auto 100px; max-width:1120px;
-    background:linear-gradient(135deg, rgba(205,164,52,0.18), rgba(23,21,19,0.8));
-    backdrop-filter:blur(20px);
+    background:linear-gradient(135deg, rgba(205,164,52,0.22), rgba(23,21,19,0.85));
+    backdrop-filter:blur(22px);
     border:1px solid var(--hairline); border-radius:24px; padding:70px 40px;
     text-align:center; position:relative; overflow:hidden;
     transition: transform .35s var(--ease), box-shadow .35s;
   }
   .cta-banner:hover{
     transform: translateY(-4px);
-    box-shadow: 0 20px 50px rgba(205,164,52,0.2);
+    box-shadow: 0 20px 50px rgba(205,164,52,0.25);
   }
   .cta-banner::before{
     content:""; position:absolute; width:400px; height:400px; border-radius:50%;
@@ -716,10 +717,10 @@
     top:-150px; right:-100px; animation:orbFloat 18s ease-in-out infinite;
   }
   .cta-banner h2{ font-size:clamp(22px,3.6vw,36px); font-weight:800; margin-bottom:14px; position:relative; }
-  .cta-banner p{ color:var(--muted); max-width:520px; margin:0 auto 30px; font-size:15px; line-height:1.8; position:relative; }
+  .cta-banner p{ color:#eae5dc; max-width:520px; margin:0 auto 30px; font-size:15px; line-height:1.8; position:relative; }
 
   /* ---------- footer ---------- */
-  footer{ border-top:1px solid var(--hairline); padding:50px 0 34px; background:rgba(5,5,5,0.75); backdrop-filter:blur(16px); }
+  footer{ border-top:1px solid var(--hairline); padding:50px 0 34px; background:rgba(5,5,5,0.85); backdrop-filter:blur(16px); }
   .footer-top{ display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:30px; margin-bottom:34px; }
   .footer-brand{ display:flex; align-items:center; gap:12px; }
   .social-row{ display:flex; gap:12px; }
@@ -772,7 +773,7 @@
   </div>
 </div>
 
-<!-- REAL PARKING LOT PHOTO BACKGROUND WITH AMBIENT ZOOM -->
+<!-- REAL PARKING LOT PHOTO BACKGROUND (BRIGHT & CLEAR) -->
 <div class="bg-scene">
   <div class="bg-image-layer"></div>
   <div class="beam b1"></div>
