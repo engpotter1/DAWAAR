@@ -4,10 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>دوَّر | DAWWAR — Smart Parking</title>
-
-<!-- SVG FAVICON -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 200'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23fff0bd'/><stop offset='50%25' stop-color='%23cda43a'/><stop offset='100%25' stop-color='%238a6a22'/></linearGradient><linearGradient id='s' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23ffffff'/><stop offset='100%25' stop-color='%23666b73'/></linearGradient></defs><path d='M68 35 L105 35 L75 145 C72 155 60 162 48 162 C58 145 68 90 68 35 Z' fill='url(%23g)'/><path d='M98 35 C155 35 192 65 192 105 C192 145 152 165 105 165 C138 152 165 132 165 105 C165 75 135 52 98 52 Z' fill='url(%23s)'/><path d='M45 168 C85 135 155 135 195 168 C155 145 85 145 45 168 Z' fill='url(%23g)'/><circle cx='140' cy='135' r='4' fill='%23fff0bd'/><circle cx='95' cy='135' r='4' fill='%23fff0bd'/></svg>">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
 <style>
@@ -55,7 +51,7 @@
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
   }
 
-  /* ---------- CINEMATIC SPLASH SCREEN ---------- */
+  /* ---------- EXACT CINEMATIC SPLASH BANNER ---------- */
   .splash-screen {
     position: fixed;
     inset: 0;
@@ -101,6 +97,7 @@
     }
   }
 
+  /* Left & Right Luxury Golden Curved Waves */
   .gold-wave {
     position: absolute;
     width: 420px;
@@ -119,6 +116,7 @@
     transform: scaleX(-1) rotate(5deg);
   }
 
+  /* Central Logo & Typography */
   .splash-center-content {
     position: relative;
     z-index: 5;
@@ -265,21 +263,6 @@
   }
   .eyebrow::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); animation: pulse 1.5s infinite;}
 
-  /* ---------- BRAND LOGO ICON (REPLACING "D" SQUARE) ---------- */
-  .brand-logo-icon{
-    width:50px; height:44px;
-    display:flex; align-items:center; justify-content:center;
-    filter: drop-shadow(0 4px 15px rgba(205,164,52,0.45));
-    transition: transform 0.4s var(--ease), filter 0.4s var(--ease);
-  }
-  .brand-logo-icon svg{
-    width:100%; height:100%;
-  }
-  .brand:hover .brand-logo-icon{
-    transform: scale(1.1) rotate(-4deg);
-    filter: drop-shadow(0 6px 25px rgba(205,164,52,0.75));
-  }
-
   /* ---------- nav ---------- */
   .nav{
     position:sticky; top:0; z-index:50;
@@ -287,8 +270,20 @@
     background:rgba(5,5,5,0.85);
     border-bottom:1px solid var(--hairline);
   }
-  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 28px; max-width:1180px; margin:0 auto; }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1180px; margin:0 auto; }
   .brand{ display:flex; align-items:center; gap:12px; }
+  .brand-badge{
+    width:44px; height:44px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(155deg, var(--gold-light), var(--gold) 55%, var(--gold-deep));
+    color:var(--black); font-family:'Cairo',sans-serif; font-weight:900; font-size:20px;
+    box-shadow:0 4px 18px rgba(205,164,52,0.35);
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .brand:hover .brand-badge{
+    transform: rotate(10deg) scale(1.08);
+    box-shadow: 0 6px 25px rgba(205,164,52,0.6);
+  }
   .brand-text .ar{ font-family:'Cairo',sans-serif; font-weight:800; font-size:19px; line-height:1.1;}
   .brand-text .en{ font-size:10.5px; letter-spacing:3px; color:var(--muted); font-family:'Cairo',sans-serif;}
   .nav-links{ display:flex; align-items:center; gap:34px; }
@@ -929,17 +924,17 @@
           </linearGradient>
         </defs>
 
-        <!-- 3D Outer D Arch -->
+        <!-- 3D Outer D Arch (Silver Chrome with Deep Bevel) -->
         <path d="M 125 24 C 205 24 256 68 256 122 C 256 176 200 204 135 204 C 180 188 218 160 218 122 C 218 80 178 50 125 50 Z" fill="url(#metalSilver)" />
         
-        <!-- 3D Inner Left D Pillar -->
+        <!-- 3D Inner Left D Pillar (Solid Gold Metallic) -->
         <path d="M 90 24 L 140 24 L 98 175 C 95 188 80 198 64 198 C 76 178 90 105 90 24 Z" fill="url(#metalGold)" />
         
         <!-- Curved Roadway Ribbons in Base -->
         <path d="M 60 205 C 115 162 205 162 260 205 C 205 174 115 174 60 205 Z" fill="url(#roadSweep)" />
         <path d="M 80 214 C 125 185 195 185 240 214 C 195 194 125 194 80 214 Z" fill="url(#metalGold)" opacity="0.8" />
         
-        <!-- Sleek Sports Car Silhouette -->
+        <!-- Sleek Sports Car Silhouette nested inside D -->
         <path d="M 115 160 C 135 156 155 152 178 134 C 198 118 238 116 258 132 C 268 140 274 150 274 160 C 262 160 258 152 246 152 C 234 152 228 160 206 160 C 192 160 184 152 172 152 C 160 152 152 160 115 160 Z" stroke="url(#metalGold)" stroke-width="3.5" stroke-linecap="round" fill="none" />
         <circle cx="246" cy="158" r="6" fill="#fff0bd" />
         <circle cx="172" cy="158" r="6" fill="#fff0bd" />
@@ -972,28 +967,7 @@
 <header class="nav">
   <div class="nav-inner">
     <div class="brand">
-      <!-- 3D Emblem Logo (Replacing the old square) -->
-      <div class="brand-logo-icon">
-        <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="navGold" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#fff0bd" />
-              <stop offset="40%" stop-color="#cda43a" />
-              <stop offset="100%" stop-color="#8a6a22" />
-            </linearGradient>
-            <linearGradient id="navSilver" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="100%" stop-color="#7a8089" />
-            </linearGradient>
-          </defs>
-          <path d="M 125 24 C 205 24 256 68 256 122 C 256 176 200 204 135 204 C 180 188 218 160 218 122 C 218 80 178 50 125 50 Z" fill="url(#navSilver)" />
-          <path d="M 90 24 L 140 24 L 98 175 C 95 188 80 198 64 198 C 76 178 90 105 90 24 Z" fill="url(#navGold)" />
-          <path d="M 60 205 C 115 162 205 162 260 205 C 205 174 115 174 60 205 Z" fill="url(#navGold)" />
-          <path d="M 115 160 C 135 156 155 152 178 134 C 198 118 238 116 258 132 C 268 140 274 150 274 160 C 262 160 258 152 246 152 C 234 152 228 160 206 160 C 192 160 184 152 172 152 C 160 152 152 160 115 160 Z" stroke="url(#navGold)" stroke-width="4" fill="none" />
-          <circle cx="246" cy="158" r="6" fill="#fff0bd" />
-          <circle cx="172" cy="158" r="6" fill="#fff0bd" />
-        </svg>
-      </div>
+      <div class="brand-badge">د</div>
       <div class="brand-text">
         <div class="ar">دوَّر</div>
         <div class="en">DAWWAR</div>
@@ -1231,17 +1205,7 @@
 <footer class="wrap">
   <div class="footer-top">
     <div class="footer-brand">
-      <!-- 3D Emblem Logo in Footer -->
-      <div class="brand-logo-icon">
-        <svg viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 125 24 C 205 24 256 68 256 122 C 256 176 200 204 135 204 C 180 188 218 160 218 122 C 218 80 178 50 125 50 Z" fill="url(#navSilver)" />
-          <path d="M 90 24 L 140 24 L 98 175 C 95 188 80 198 64 198 C 76 178 90 105 90 24 Z" fill="url(#navGold)" />
-          <path d="M 60 205 C 115 162 205 162 260 205 C 205 174 115 174 60 205 Z" fill="url(#navGold)" />
-          <path d="M 115 160 C 135 156 155 152 178 134 C 198 118 238 116 258 132 C 268 140 274 150 274 160 C 262 160 258 152 246 152 C 234 152 228 160 206 160 C 192 160 184 152 172 152 C 160 152 152 160 115 160 Z" stroke="url(#navGold)" stroke-width="4" fill="none" />
-          <circle cx="246" cy="158" r="6" fill="#fff0bd" />
-          <circle cx="172" cy="158" r="6" fill="#fff0bd" />
-        </svg>
-      </div>
+      <div class="brand-badge">د</div>
       <div class="brand-text">
         <div class="ar">دوَّر</div>
         <div class="en">DAWWAR</div>
